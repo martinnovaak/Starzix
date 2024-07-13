@@ -411,6 +411,7 @@ class SearchThread {
             // In singular searches, ttMove = MOVE_NONE, which prevents SE
 
             i32 singularBeta;
+            bool doubleExtended = false;
 
             if (move == ttMove
             && !mBoard.inCheck()
@@ -430,6 +431,7 @@ class SearchThread {
                 // Double extension
                 if (!pvNode && singularScore < singularBeta - doubleExtensionMargin() && doubleExtsLeft > 0) {
                     newDepth += 2;
+                    doubleExtended = true;
                     doubleExtsLeft--;
                 }
                 // Normal singular extension
@@ -464,6 +466,7 @@ class SearchThread {
             {
                 lmr = LMR_TABLE[depth][legalMovesSeen];
                 lmr -= pvNode; // reduce pv nodes less
+                lmr += doubleExtended;
 
                 if (lmr < 0) lmr = 0; // dont extend
             }
