@@ -367,6 +367,7 @@ class SearchThread {
         i32 bestScore = -INF;
         Move bestMove = MOVE_NONE;
         Bound bound = Bound::UPPER;
+        bool doubleExtended = false;
 
         ArrayVec<Move, 256> failLowQuiets;
 
@@ -411,7 +412,6 @@ class SearchThread {
             // In singular searches, ttMove = MOVE_NONE, which prevents SE
 
             i32 singularBeta;
-            bool doubleExtended = false;
 
             if (move == ttMove
             && !mBoard.inCheck()
