@@ -399,7 +399,7 @@ class SearchThread {
             {
                 // LMP (Late move pruning)
                 if (legalMovesSeen >= lmpMinMoves() + pvNode + mBoard.inCheck()
-                                      + depth * depth * lmpMultiplier())
+                                      + depth * depth * lmpMultiplier() / (2 - improving))
                     break;
 
                 i32 lmrDepth = std::max(0, depth - LMR_TABLE[depth][legalMovesSeen]);
