@@ -264,12 +264,16 @@ inline void go(std::vector<std::string> &tokens, Board &board)
 
     // Calculate search time limits
 
-    u64 hardMilliseconds = std::max((i64)0, milliseconds - 10);
+    u64 timeMinusThreshold = std::max((i64)0, milliseconds - 10);
+    u64 hardMilliseconds;
     u64 softMilliseconds = I64_MAX;
 
+    int moveCount = board.moveCount();
+    double timeDivider = 40 * std::pow(1.0 + 1.5 * std::pow(double(moveCount) / 40, 2), 0.5) - moveCount;
+
     if (!isMoveTime) {
-        hardMilliseconds *= hardTimePercentage();
-        softMilliseconds = hardMilliseconds * softTimePercentage();
+        hardMilliseconds = hardTimePercentage() * timeMinusThreshold / timeDivider;
+        softMilliseconds = timeMinusThreshold / sqrt(timeDivider);
     }
 
     SearchThread::sSearchStopped = false;

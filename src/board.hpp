@@ -948,5 +948,10 @@ class Board {
         return false;
     }
 
+    inline int moveCount() {
+        const int current_index = mState - mStates.data();
+        return (current_index + 1) / 2;
+    }
+
 }; // class Board
 
